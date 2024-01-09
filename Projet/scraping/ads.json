@@ -1,0 +1,26 @@
+[
+    {
+        "Marque": "Citroen",
+        "Modele": "C3",
+        "Annee": 2020,
+        "Kilometrage": 61081,
+        "Transmission": "Manuelle",
+        "Energie": "Essence"
+    },
+    {
+        "Marque": "Volkswagen",
+        "Modele": "Tiguan",
+        "Annee": 2023,
+        "Kilometrage": 26997,
+        "Transmission": "Automatique",
+        "Energie": "Diesel"
+    },
+    {
+        "Marque": "Peugeot",
+        "Modele": "308",
+        "Annee": 2021,
+        "Kilometrage": 60177,
+        "Transmission": "Automatique",
+        "Energie": "Essence"
+    }
+]

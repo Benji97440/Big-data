@@ -1,0 +1,16 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY /scraping/config/requirements.txt .
+
+# Crée un dossier pour stocker les fichiers de sortie
+RUN mkdir /app/output
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY /scraping/scrapper.py .
+
+# EXPOSE 5000
+
+CMD ["python", "scrapper.py"]

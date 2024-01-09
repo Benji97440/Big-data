@@ -1,0 +1,4 @@
+requests
+beautifulsoup4
+requests-rotating-proxy
+confluent_kafka

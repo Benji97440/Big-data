@@ -1,0 +1,74 @@
+version: "3.8"
+
+networks:
+  pipeline:
+    external: true
+
+services:
+  scraping:
+    container_name: scraping
+    build: 
+      context: .
+      dockerfile: ./scraping/dockerfile
+    volumes:
+      - ./output:/app/output
+    networks:
+      - pipeline
+
+  zookeeper:
+    container_name: zookeeper-1
+    build:
+      context: .
+      dockerfile: ./zookeeper/dockerfile 
+    environment:
+      KAFKA_CREATE_TOPICS: "Cars:3:1"
+    networks:
+      - pipeline
+
+  kafka-1:
+    container_name: kafka-1
+    build:
+      context: .
+      dockerfile: ./kafka/kafka-1/dockerfile
+    networks:
+      - pipeline
+    depends_on:
+      - zookeeper
+
+  kafka-2:
+    container_name: kafka-2
+    build: 
+      context: .
+      dockerfile: ./kafka/kafka-2/dockerfile
+    networks:
+      - pipeline
+    depends_on:
+      - zookeeper
+
+  kafka-3: 
+    container_name: kafka-3
+    build: 
+      context: .
+      dockerfile: ./kafka/kafka-3/dockerfile
+    networks:
+      - pipeline
+    depends_on:
+      - zookeeper
+
+  kafka-topic-creator:
+    image: ches/kafka
+    command: kafka-topics.sh --create --zookeeper zookeeper-1:2181 --replication-factor 1 --partitions 3 --topic Cars
+    networks:
+      - pipeline
+    depends_on: 
+      - kafka-3
+
+  spark:
+    container_name: spark
+    build: 
+      context: .
+      dockerfile: ./spark/dockerfile
+    networks:
+      - pipeline
+    depends_on:
+      - zookeeper
